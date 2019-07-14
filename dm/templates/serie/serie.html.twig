@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+	<h1>{{serie.name}}</h1>
+    <p>Année de début : {{ serie.AnneeDebut }}</p>
+    <p>Année de fin : {{ serie.AnneeFin }}</p>
+    <p>Nombre de saisons : {{ serie.NbSaisons }}</p>
+    <p>Catégorie : {{ serie.categorieId }}</p>
+	{% if serie.img is not empty %}
+		<img src="{{ asset('/uploads/'~ serie.img) }}" alt="Photo {{ serie.name }}" class="img-thumbnail">
+	{% endif %}
+    
+	<h2>Modifier la série</h2>
+	{{ form(edit_form) }}
+    <br>
+    <a href="{{ path('serieDelete', {'id': serie.id}) }}">Supprimer cette série</a>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SerieController!{% endblock %}
+
+{% block body %}
+
+    <h1>Les séries</h1>
+
+    {% if series is empty %}
+        <p>Il n'y aucune séries</p>
+    {% else %}
+        <p>Il y a {{ series|length }} séries sur ce site.</p>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Début</th>
+                    <th>Fin</th>
+                    <th>Saisons</th>
+                    <th>Catégorie</th>
+                    <th>Image</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for serie in series %}
+                <tr>
+                    <td>
+                        <a href="{{ path('serie', {'id': serie.id}) }}">
+                            {{ serie.name }}
+                        </a>
+                    </td>
+                    <td>
+                        {{ serie.AnneeDebut }}
+                    </td>
+                    <td>
+                        {{ serie.AnneeFin }}
+                    </td>
+                    <td>
+                        {{ serie.NbSaisons }}
+                    </td>
+                    <td>
+                        {{ serie.categorieId }}
+                    </td>
+                    <td>
+                        {% if serie.img is not empty %}
+                            <img src="{{ asset('/uploads/'~ serie.img) }}" alt="Photo {{ serie.name }}" class="img-thumbnail">
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ path('serieDelete', {'id': serie.id}) }}">X</a>
+                    </td>
+                </tr> 
+                {% endfor %}
+            </tbody>
+        </table>
+
+    {% endif %}
+
+    <h2>Ajouter une série</h2>
+
+    {{ form_start(add_serie) }}
+        {{ form_row(add_serie.name) }}
+        {{ form_row(add_serie.annee_debut) }}
+        {{ form_row(add_serie.annee_fin) }}
+        {{ form_row(add_serie.img) }}
+        {{ form_row(add_serie.nb_saisons) }}
+        {{ form_row(add_serie.categorie_id) }}
+    {{ form_end(add_serie) }}
+    
+{% endblock %}

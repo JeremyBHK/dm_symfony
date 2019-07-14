@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DefaultController!{% endblock %}
+
+{% block body %}
+    <h2>Section Série</h2>
+    <p>{{ series|length }} séries sont disponibles sur ce site !</p>
+    <a href="{{ path('series') }}">Aller vers la page des séries</a>
+    <h2>Section catégorie</h2>
+    <p>Notre choix de séries s'étant parmi {{ categorie|length }} catégories différentes !</p>
+    {% if categorie is empty %}
+        <p>Il n'y a aucune catégorie</p>
+    {% else %}
+        <table class="table table-striped">
+            <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Nombre de séries</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for categories in categorie %}
+                <tr>
+                    <td>
+                        <a href="{{ path('categorie', {'id': categories.id}) }}" title="{{ categories.name }}">
+                            {{ categories.name }}
+                        </a>
+                    </td>
+                    <td>
+                        {% set count = 0 %}
+                        {% for serie in series if serie.categorieId == categories %}
+                        {% set count = count + 1 %}
+                        {% endfor %}
+                        {{ count }}
+                    </td>
+                    <td>
+                        <a href="{{ path('categorieDelete', {'id': categories.id}) }}">X</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </thead>
+        </table>
+    {% endif %}
+
+    <h2>Ajouter une catégorie</h2>
+        {{ form_start(add_categorie) }}
+            {{ form_row(add_categorie.name) }}
+        {{ form_end(add_categorie) }}
+
+{% endblock %}
